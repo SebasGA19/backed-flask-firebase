@@ -5,6 +5,7 @@ CREATE TABLE users (
     email TEXT NOT NULL,
     name TEXT NOT NULL,
     password TEXT NOT NULL,
+    token TEXT NOT NULL,
     photo TEXT NOT NULL,
     phone TEXT NOT NULL,
     position TEXT NOT NULL
