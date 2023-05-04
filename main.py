@@ -20,3 +20,10 @@ def register():
         'INSERT INTO users (email, name, password, token, photo, phone, position) VALUES (?, ?, ?, ?, ?, ?, ?)', (email, name, hashlib.sha512(password).hexdigest(), token, photo, phone, position))
     
     return "Register succesfull", 200
+
+def auth(request: flask.Request) -> tuple[str, int] or None:
+    if "Session" not in request.headers:
+        return "Unauthorized", 401
+    jwt_payload = jwt.authorize(request.headers["Session"])
+    if jwt_payload is None:
+        return "Unauthorized", 401
