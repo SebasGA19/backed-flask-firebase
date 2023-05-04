@@ -27,3 +27,9 @@ def auth(request: flask.Request) -> tuple[str, int] or None:
     jwt_payload = jwt.authorize(request.headers["Session"])
     if jwt_payload is None:
         return "Unauthorized", 401
+    
+@app.route("/valid", methods=["GET"])
+def valid():
+    if (unauth := auth(flask.request)) is not None:
+        return unauth
+    return flask.jsonify({"status": "valid"})
