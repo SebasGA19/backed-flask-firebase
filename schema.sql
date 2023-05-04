@@ -8,6 +8,7 @@ CREATE TABLE users (
     token TEXT NOT NULL,
     photo TEXT NOT NULL,
     phone TEXT NOT NULL,
-    position TEXT NOT NULL
+    position TEXT NOT NULL,
+    alt_token TEXT
 );
 

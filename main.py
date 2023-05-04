@@ -18,7 +18,8 @@ def register():
     position = req["position"]
     database.cursor.execute(
         'INSERT INTO users (email, name, password, token, photo, phone, position) VALUES (?, ?, ?, ?, ?, ?, ?)', (email, name, hashlib.sha512(password).hexdigest(), token, photo, phone, position))
-    
+    database.connection.commit()
+
     return "Register succesfull", 200
 
 @app.route("/login", methods=["POST"])
@@ -28,9 +29,16 @@ def login():
     password = hashlib.sha512(req["password"].encode()).hexdigest()
     token = req["token"]
     database.cursor.execute(
-        'SELECT id, email, password, token FROM users WHERE email = ? AND password = ? AND token = ?', (email, password))
+        'SELECT id, email, password, token, alt_token FROM users WHERE email = ? AND password = ? AND token = ?', (email, password))
     user = database.cursor.fetchall()
-    
+
+    bd_token = user[3]
+    alt_token = user[4]
+    if (token != bd_token and token != alt_token):
+        database.cursor.execute(
+            'UPDATE users SET alt_token = ? WHERE email = ? AND password = ?', (alt_token, email, password))
+        database.connection.commit()
+
     if user is not None and len(user) > 0:
         return flask.jsonify({"jwt": jwt.new_jwt(user[0][0], user[0][1])})
     return "Unauthorized", 401
