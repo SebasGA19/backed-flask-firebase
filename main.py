@@ -21,6 +21,20 @@ def register():
     
     return "Register succesfull", 200
 
+@app.route("/login", methods=["POST"])
+def login():
+    req = flask.request.get_json()
+    email = req["email"]
+    password = hashlib.sha512(req["password"].encode()).hexdigest()
+    token = req["token"]
+    database.cursor.execute(
+        'SELECT id, email, password, token FROM users WHERE email = ? AND password = ? AND token = ?', (email, password))
+    user = database.cursor.fetchall()
+    
+    if user is not None and len(user) > 0:
+        return flask.jsonify({"jwt": jwt.new_jwt(user[0][0], user[0][1])})
+    return "Unauthorized", 401
+
 def auth(request: flask.Request) -> tuple[str, int] or None:
     if "Session" not in request.headers:
         return "Unauthorized", 401
