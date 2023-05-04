@@ -12,3 +12,12 @@ CREATE TABLE users (
     alt_token TEXT
 );
 
+DROP TABLE IF EXISTS messages;
+CREATE TABLE messages (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    message_title TEXT NOT NULL,
+    message_body TEXT NOT NULL,
+    out_token TEXT NOT NULL,
+    in_token TEXT NOT NULL
+)
