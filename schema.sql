@@ -1,0 +1,12 @@
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    email TEXT NOT NULL,
+    name TEXT NOT NULL,
+    password TEXT NOT NULL,
+    photo TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    position TEXT NOT NULL
+);
+
