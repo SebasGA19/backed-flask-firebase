@@ -1,7 +1,7 @@
 import hashlib
 import sqlite3
 
-connection = sqlite3.connect(':memory:', check_same_thread=False)
+connection = sqlite3.connect('mydatabase.db', check_same_thread=False)
 cursor = connection.cursor()
 
 def init_database():
